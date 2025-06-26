@@ -6,24 +6,53 @@ public class GameMenuController : MonoBehaviour
 {
     private PlayerInput _playerInput;
     public UIDocument GameMenuDocument;
-    private VisualElement _root;
+    public UIDocument InventoryDocument;
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
-        _root = GameMenuDocument.rootVisualElement;
-        _root.style.display = DisplayStyle.None;
+        HideDocument(GameMenuDocument);
+        HideDocument(InventoryDocument);
     }
 
     public void OnOpenMenu(InputValue value)
     {
-        _root.style.display = DisplayStyle.Flex;
+        ShowDocument(GameMenuDocument);
         _playerInput.SwitchCurrentActionMap("UI");
     }
 
     public void OnCancel(InputValue value)
     {
-        _root.style.display = DisplayStyle.None;
+        HideDocument(GameMenuDocument);
+        HideDocument(InventoryDocument);
         _playerInput.SwitchCurrentActionMap("Player");
+    }
+
+    public void OnOpenInventory(InputValue value)
+    {
+        ShowDocument(InventoryDocument);
+        _playerInput.SwitchCurrentActionMap("UI");
+    }
+
+    public void OnCloseInventory(InputValue value)
+    {
+        HideDocument(InventoryDocument);
+        _playerInput.SwitchCurrentActionMap("Player");
+    }
+
+    private void ShowDocument(UIDocument document)
+    {
+        if (document != null)
+        {
+            document.rootVisualElement.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    private void HideDocument(UIDocument document)
+    {
+        if (document != null)
+        {
+            document.rootVisualElement.style.display = DisplayStyle.None;
+        }
     }
 }
