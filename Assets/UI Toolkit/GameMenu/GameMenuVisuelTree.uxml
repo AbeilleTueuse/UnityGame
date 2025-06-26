@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/GameMenu/GameMenuStyle.uss?fileID=7433441132597879392&amp;guid=af65da1c09a1bb64e8d9e94ba97d4561&amp;type=3#GameMenuStyle" />
+    <ui:VisualElement name="container">
+        <ui:Button text="Retourner au menu" name="back-to-menu" class="menu-button" />
+    </ui:VisualElement>
+</ui:UXML>

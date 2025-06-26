@@ -1,0 +1,17 @@
+:root {
+    --button-width: 500px;
+    --button-height: 80px;
+    --normal-size: 30px;
+}
+
+#container {
+    padding: 50px;
+    height: 100%;
+}
+
+.menu-button {
+    width: var(--button-width);
+    height: var(--button-height);
+    font-size: var(--normal-size);
+    margin: auto;
+}
