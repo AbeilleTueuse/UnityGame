@@ -29,6 +29,16 @@ public class MainMenuManager : StaticInstance<MainMenuManager>
         }
     }
 
+    private void OnEnable()
+    {
+        LobbyEvents.OnLobbyListReady += OnLobbyListReady;
+    }
+
+    private void OnDisable()
+    {
+        LobbyEvents.OnLobbyListReady -= OnLobbyListReady;
+    }
+
     public void OnClick_ContinueGame()
     {
         _playerSaveManager.ContinueGame();
@@ -92,21 +102,6 @@ public class MainMenuManager : StaticInstance<MainMenuManager>
             LobbyPlayer.LocalPlayer.RequestStartGameServerRpc();
     }
 
-    public void OnLobbyCreatedSuccessfully()
-    {
-        _ui.LobbyIsCreated();
-    }
-
-    public void OnLobbyCreatedFailed()
-    {
-        _ui.LobbyCreationFailed();
-    }
-
-    public void OnLobbyLeft()
-    {
-        _ui.LobbyLeaveCompleted();
-    }
-
     private void OnLobbySelected(LobbyInfo lobby)
     {
         _ui.HideLobbyListPanel();
@@ -124,10 +119,5 @@ public class MainMenuManager : StaticInstance<MainMenuManager>
         }
 
         _ui.LobbyListIsCreated();
-    }
-
-    public void OnLobbySearch()
-    {
-        _ui.StartLobbySearch();
     }
 }

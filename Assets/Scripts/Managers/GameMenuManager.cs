@@ -22,14 +22,7 @@ public class GameMenuManager : MonoBehaviour
 
     public void OnClick_ReturnToMenu()
     {
-        Debug.Log("Returning to Main Menu...");
-        if (_networkManager.IsClientStarted || _networkManager.IsServerStarted)
-        {
-            _networkManager.TransportManager.Transport.StopConnection(true);
-        }
-
         LobbyManager.LeaveLobbyFromGame();
-
         SceneManager.LoadScene(SceneNames.MainMenu);
     }
 }

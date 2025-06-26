@@ -46,7 +46,7 @@ public class LobbyManager : Singleton<LobbyManager>
             return;
         }
 
-        UILoadingPanel.Instance.Show();
+        LobbyEvents.RaiseLobbyCreation();
 
         ELobbyType lobbyType = isPrivate
             ? ELobbyType.k_ELobbyTypePrivate
@@ -64,7 +64,7 @@ public class LobbyManager : Singleton<LobbyManager>
             return;
         }
 
-        MainMenuManager.Instance.OnLobbySearch();
+        LobbyEvents.RaiseLobbySearch();
 
         SteamMatchmaking.AddRequestLobbyListDistanceFilter(
             ELobbyDistanceFilter.k_ELobbyDistanceFilterWorldwide
@@ -83,7 +83,7 @@ public class LobbyManager : Singleton<LobbyManager>
         if (callback.m_eResult != EResult.k_EResultOK)
         {
             Debug.LogWarning("Lobby creation failed: " + callback.m_eResult);
-            MainMenuManager.Instance.OnLobbyCreatedFailed();
+            LobbyEvents.RaiseLobbyCreationFailed();
             return;
         }
 
@@ -106,7 +106,7 @@ public class LobbyManager : Singleton<LobbyManager>
         _fishySteamworks.SetClientAddress(clientAddress);
         _fishySteamworks.StartConnection(true);
 
-        MainMenuManager.Instance.OnLobbyCreatedSuccessfully();
+        LobbyEvents.RaiseLobbyCreated();
     }
 
     private void OnLobbyEntered(LobbyEnter_t callback)
@@ -118,7 +118,7 @@ public class LobbyManager : Singleton<LobbyManager>
         );
         _fishySteamworks.StartConnection(false);
 
-        UILoadingPanel.Instance.Hide();
+        LobbyEvents.RaiseLobbyEntered();
     }
 
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
@@ -138,7 +138,7 @@ public class LobbyManager : Singleton<LobbyManager>
             lobbies[i] = new LobbyInfo { ID = lobbyID, Name = lobbyName };
         }
 
-        MainMenuManager.Instance.OnLobbyListReady(lobbies);
+        LobbyEvents.RaiseLobbyListReady(lobbies);
     }
 
     public static void JoinLobby(CSteamID steamID)
@@ -153,7 +153,7 @@ public class LobbyManager : Singleton<LobbyManager>
 
         if (SteamMatchmaking.RequestLobbyData(steamID))
         {
-            UILoadingPanel.Instance.Show();
+            LobbyEvents.RaiseJoinLobby();
             SteamMatchmaking.JoinLobby(steamID);
         }
     }
@@ -164,6 +164,7 @@ public class LobbyManager : Singleton<LobbyManager>
         CurrentLobbyID = 0;
 
         Instance._fishySteamworks.StopConnection(false);
+
         if (Instance._networkManager.IsServerStarted)
             Instance._fishySteamworks.StopConnection(true);
     }
@@ -176,9 +177,8 @@ public class LobbyManager : Singleton<LobbyManager>
             return;
         }
 
-        UILoadingPanel.Instance.Show();
         LeaveLobby();
-        MainMenuManager.Instance.OnLobbyLeft();
+        LobbyEvents.RaiseLobbyLeft();
     }
 
     public static void LeaveLobbyFromGame()
@@ -199,9 +199,8 @@ public class LobbyManager : Singleton<LobbyManager>
             Debug.LogWarning("No lobby is currently active.");
             return;
         }
-        Debug.Log("Start");
+
         SteamFriends.ActivateGameOverlayInviteDialog(new CSteamID(CurrentLobbyID));
-        Debug.Log("Endo");
     }
 
     public static bool IsInLobby()

@@ -19,6 +19,38 @@ public class MainMenuController : MonoBehaviour
     public Button StartGameButton;
     public Button InviteFriendsButton;
 
+    private void OnEnable()
+    {
+        LobbyEvents.OnLobbyCreation += ShowLoadingPanel;
+        LobbyEvents.OnLobbySearch += StartLobbySearch;
+        LobbyEvents.OnLobbyCreationFailed += HideLoadingPanel;
+        LobbyEvents.OnLobbyCreated += HideLoadingPanel;
+        LobbyEvents.OnLobbyEntered += LobbyIsCreated;
+        LobbyEvents.OnJoinLobby += ShowLoadingPanel;
+        LobbyEvents.OnLobbyLeft += LobbyLeaveCompleted;
+    }
+
+    private void OnDisable()
+    {
+        LobbyEvents.OnLobbyCreation -= ShowLoadingPanel;
+        LobbyEvents.OnLobbySearch -= StartLobbySearch;
+        LobbyEvents.OnLobbyCreationFailed -= HideLoadingPanel;
+        LobbyEvents.OnLobbyCreated -= HideLoadingPanel;
+        LobbyEvents.OnLobbyEntered -= LobbyIsCreated;
+        LobbyEvents.OnJoinLobby -= ShowLoadingPanel;
+        LobbyEvents.OnLobbyLeft -= LobbyLeaveCompleted;
+    }
+
+    private void ShowLoadingPanel()
+    {
+        UILoadingPanel.Instance.Show();
+    }
+
+    private void HideLoadingPanel()
+    {
+        UILoadingPanel.Instance.Hide();
+    }
+
     public void ShowLoadGamePanel()
     {
         StartPanel.SetActive(false);
@@ -103,46 +135,36 @@ public class MainMenuController : MonoBehaviour
         StartGamePanel.SetActive(true);
     }
 
-    public void StartLobbyCreation()
-    {
-        UILoadingPanel.Instance.Show();
-    }
-
     public void LobbyIsCreated()
     {
-        UILoadingPanel.Instance.Hide();
+        HideLoadingPanel();
         ManageLobbyPanel.SetActive(false);
         StartGameButton.gameObject.SetActive(true);
         InviteFriendsButton.gameObject.SetActive(true);
     }
 
-    public void LobbyCreationFailed()
-    {
-        UILoadingPanel.Instance.Hide();
-    }
-
     public void StartLeavingLobby()
     {
-        UILoadingPanel.Instance.Show();
+        ShowLoadingPanel();
     }
 
     public void LobbyLeaveCompleted()
     {
-        UILoadingPanel.Instance.Hide();
+        HideLoadingPanel();
         ManageLobbyPanel.SetActive(true);
         StartGameButton.gameObject.SetActive(false);
         InviteFriendsButton.gameObject.SetActive(false);
     }
 
-    public void StartLobbySearch()
+    private void StartLobbySearch()
     {
-        UILoadingPanel.Instance.Show();
+        ShowLoadingPanel();
         ShowLobbyListPanel();
     }
 
     public void LobbyListIsCreated()
     {
-        UILoadingPanel.Instance.Hide();
+        HideLoadingPanel();
     }
 
     private static void ChangeCurrentButton(Selectable selectable)
