@@ -2970,6 +2970,10 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 7573269498338114398}
   _networkObjectCache: {fileID: 7573269498338114398}
+  ObjectsToDisable:
+  - {fileID: 1569349259025659859}
+  - {fileID: 1363305846755582997}
+  - {fileID: 8360601322250239968}
 --- !u!114 &6216635179480738898
 MonoBehaviour:
   m_ObjectHideFlags: 0

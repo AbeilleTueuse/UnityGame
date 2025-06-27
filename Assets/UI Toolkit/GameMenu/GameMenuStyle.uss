@@ -4,9 +4,9 @@
     --normal-size: 30px;
 }
 
-#container {
+#GameMenuContainer {
     padding: 50px;
-    height: 100%;
+    margin: auto;
 }
 
 .menu-button {

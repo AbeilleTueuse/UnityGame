@@ -1,25 +1,17 @@
 :root {
-    --inventory-cell-size: 100px;
-    --inventory-cell-margin: 10px;
-    --inventory-columns: 5;
 }
 
-#container {
-    padding: 50px;
-}
-
-.inventory {
+.inventory-grid {
     flex-direction: row;
     flex-wrap: wrap;
+    margin: auto;
 }
 
 .inventory-cell {
-    width: var(--inventory-cell-size);
-    height: var(--inventory-cell-size);
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid rgb(204, 204, 204);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--inventory-cell-margin);
+    padding: 0;
 }

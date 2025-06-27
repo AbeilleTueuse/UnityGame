@@ -5,7 +5,7 @@ public abstract class BaseMenuController : MonoBehaviour
 {
     [SerializeField]
     private MenuName menuName;
-    private UIDocument _uiDocument;
+    protected UIDocument _uiDocument;
 
     protected virtual void Awake()
     {

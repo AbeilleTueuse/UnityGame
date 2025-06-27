@@ -3,43 +3,43 @@
     --bar-container-color: #333;
 }
 
-#container {
+#HudContainer {
     padding: 50px;
 }
 
-#bar-container {
+#BarContainer {
     align-self: flex-start;
 }
 
-#bar-container > * {
+#BarContainer > * {
     margin-bottom: 10px;
     height: var(--bar-height);
     background-color: var(--bar-container-color);
 }
 
-#health-bar-container {
+#HealthBarContainer {
     width: 400px;
 }
 
-#mana-bar-container {
+#ManaBarContainer {
     width: 300px;
 }
 
-#stamina-bar-container {
+#StaminaBarContainer {
     width: 320px;
 }
 
-#health-bar {
+#HealthBar {
     width: 80%;
     background-color: red;
 }
 
-#mana-bar {
+#ManaBar {
     width: 20%;
     background-color: blue;
 }
 
-#stamina-bar {
+#StaminaBar {
     width: 40%;
     background-color: green;
 }
