@@ -1,18 +1,13 @@
-using FishNet;
-using FishNet.Managing;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class GameMenuManager : MonoBehaviour
+public class GameMenuManager : BaseMenuManager
 {
-    private NetworkManager _networkManager;
-    public UIDocument GameMenuDocument;
-
-    private void Awake()
+    public override void OnStartClient()
     {
-        _networkManager = InstanceFinder.NetworkManager;
-        Button BackToMenu = GameMenuDocument.rootVisualElement.Q<Button>(UIElementNames.BackToMenu);
+        base.OnStartClient();
+
+        Button BackToMenu = MenuDocument.rootVisualElement.Q<Button>(UIElementNames.BackToMenu);
 
         if (BackToMenu != null)
         {
@@ -23,6 +18,10 @@ public class GameMenuManager : MonoBehaviour
     public void OnClick_ReturnToMenu()
     {
         LobbyManager.LeaveLobbyFromGame();
-        SceneManager.LoadScene(SceneNames.MainMenu);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu);
     }
+
+    public void OnOpenMenu(InputValue value) => OpenMenu();
+
+    public void OnCancel(InputValue value) => CloseMenu();
 }
