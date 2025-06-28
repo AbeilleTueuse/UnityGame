@@ -3,10 +3,8 @@ using UnityEngine.UIElements;
 
 public class GameMenuManager : BaseMenuManager
 {
-    public override void OnStartClient()
+    public void Start()
     {
-        base.OnStartClient();
-
         Button BackToMenu = MenuDocument.rootVisualElement.Q<Button>(UIElementNames.BackToMenu);
 
         if (BackToMenu != null)

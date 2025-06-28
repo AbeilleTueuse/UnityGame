@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class PlayerSaveData
 {
-    public string saveId; // Unique ID pour l'identification du fichier
+    public string saveId;
     public string characterName;
     public int level;
     public string classType;

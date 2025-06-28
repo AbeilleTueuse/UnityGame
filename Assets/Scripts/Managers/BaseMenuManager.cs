@@ -13,17 +13,32 @@ public abstract class BaseMenuManager : OwnerBehaviour
     {
         base.OnStartClient();
         _playerInput = GetComponentInParent<PlayerInput>();
+        HideCursor();
     }
 
     public void OpenMenu()
     {
         GameUIEvents.RequestOpen(_menuName);
         _playerInput.SwitchCurrentActionMap("UI");
+        ShowCursor();
     }
 
     public void CloseMenu()
     {
         GameUIEvents.RequestClose(_menuName);
         _playerInput.SwitchCurrentActionMap("Player");
+        HideCursor();
+    }
+
+    private void ShowCursor()
+    {
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.visible = true;
+    }
+
+    private void HideCursor()
+    {
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
     }
 }

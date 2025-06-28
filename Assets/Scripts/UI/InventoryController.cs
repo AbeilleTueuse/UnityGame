@@ -7,31 +7,24 @@ public class InventoryController : BaseMenuController
     [SerializeField]
     private InventoryConfig _config;
 
-    [SerializeField]
-    private PlayerInventory _playerInventory;
-
-    private InventorySystem _inventory;
     private VisualElement _inventoryGrid;
 
-    public void Start()
+    protected override void Awake()
     {
-        _inventory = _playerInventory.Inventory;
+        base.Awake();
         InitializeInventory();
-        RefreshUI();
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        if (_inventory != null)
-            _inventory.OnInventoryChanged += RefreshUI;
+        GameUIEvents.OnInventoryChanged += RefreshUI;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        if (_inventory != null)
-            _inventory.OnInventoryChanged -= RefreshUI;
+        GameUIEvents.OnInventoryChanged += RefreshUI;
     }
 
     private void InitializeInventory()
@@ -81,9 +74,9 @@ public class InventoryController : BaseMenuController
         return inventoryCell;
     }
 
-    private void RefreshUI()
+    private void RefreshUI(InventorySystem inventory)
     {
-        var slots = _inventory.Slots;
+        var slots = inventory.Slots;
 
         for (int i = 0; i < _config.MaxSlots; i++)
         {

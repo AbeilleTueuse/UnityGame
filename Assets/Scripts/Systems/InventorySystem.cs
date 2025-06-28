@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InventorySystem
 {
-    public event Action OnInventoryChanged;
-
     private readonly int _maxSlots;
     private readonly InventoryItemSlot[] _slots;
 
@@ -18,13 +16,17 @@ public class InventorySystem
         {
             _slots[i] = new InventoryItemSlot();
         }
+
+        GameUIEvents.NotifyInventoryChanged(this);
     }
 
     public IReadOnlyList<InventoryItemSlot> Slots => _slots;
 
-    public bool TryAddItem(Item item, int quantity = 1)
+    public int AddItem(Item item, int quantity = 1)
     {
-        foreach (InventoryItemSlot slot in _slots)
+        int originalQuantity = quantity;
+
+        foreach (var slot in _slots)
         {
             if (slot.Item == item && slot.Quantity < item.MaxStack)
             {
@@ -32,32 +34,33 @@ public class InventorySystem
                 int toAdd = Mathf.Min(spaceLeft, quantity);
                 slot.Quantity += toAdd;
                 quantity -= toAdd;
+
                 if (quantity == 0)
-                {
-                    OnInventoryChanged?.Invoke();
-                    return true;
-                }
+                    break;
             }
         }
 
-        foreach (var slot in _slots)
+        if (quantity > 0)
         {
-            if (slot.IsEmpty)
+            foreach (var slot in _slots)
             {
-                int toAdd = Mathf.Min(item.MaxStack, quantity);
-                slot.Item = item;
-                slot.Quantity = toAdd;
-                quantity -= toAdd;
-                if (quantity == 0)
+                if (slot.IsEmpty)
                 {
-                    OnInventoryChanged?.Invoke();
-                    return true;
+                    int toAdd = Mathf.Min(item.MaxStack, quantity);
+                    slot.Item = item;
+                    slot.Quantity = toAdd;
+                    quantity -= toAdd;
+
+                    if (quantity == 0)
+                        break;
                 }
             }
         }
 
-        OnInventoryChanged?.Invoke();
-        return false;
+        if (quantity < originalQuantity)
+            GameUIEvents.NotifyInventoryChanged(this);
+
+        return quantity;
     }
 
     // public void RemoveItem(int slotIndex, int quantity)

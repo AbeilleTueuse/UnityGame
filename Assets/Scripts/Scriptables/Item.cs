@@ -4,8 +4,8 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     [Header("Identification")]
-    public int ID;
-    public string Name;
+    public int Id;
+    public string DisplayName;
 
     [TextArea]
     public string Description;
