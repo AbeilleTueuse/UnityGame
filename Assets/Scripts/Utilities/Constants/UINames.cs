@@ -8,4 +8,6 @@ public static class UIElementNames
 public static class UIStyleClasses
 {
     public const string InventoryCell = "inventory-cell";
+    public const string InventoryIcon = "inventory-icon";
+    public const string InventoryQuantity = "inventory-quantity";
 }
