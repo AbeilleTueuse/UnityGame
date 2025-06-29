@@ -1,6 +1,12 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Inventory/InventoryStyle.uss?fileID=7433441132597879392&amp;guid=07fe849737c0cc343b9bb2d2531780f0&amp;type=3" />
-    <ui:VisualElement name="InventoryGrid" class="inventory-grid">
-        <ui:Button name="InventoryCell" class="inventory-cell" />
+    <Style src="project://database/Assets/UI%20Toolkit/Inventory/InventoryStyle.uss?fileID=7433441132597879392&amp;guid=07fe849737c0cc343b9bb2d2531780f0&amp;type=3#InventoryStyle" />
+    <ui:VisualElement name="InventoryContainer" class="inventory-container">
+        <ui:VisualElement name="InventoryGrid" class="inventory-grid">
+            <ui:Button name="InventorySlot" class="inventory-slot">
+                <ui:VisualElement name="SlotIcon" class="slot-icon" style="flex-grow: 1;">
+                    <ui:Label text="42" name="SlotQuantity" class="slot-quantity" />
+                </ui:VisualElement>
+            </ui:Button>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

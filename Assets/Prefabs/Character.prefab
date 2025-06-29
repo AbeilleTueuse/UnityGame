@@ -315,7 +315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1046790087282591025}
   m_Layer: 7
-  m_Name: UI
+  m_Name: UserInterface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3097,7 +3097,6 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7573269498338114398}
   _networkObjectCache: {fileID: 0}
   _config: {fileID: 11400000, guid: a4c4327fbbf674847b6f0512313a4908, type: 2}
-  _testItem: {fileID: 11400000, guid: f804fdae532afe541a3f529eb48a1010, type: 2}
 --- !u!1 &7998632424376780424
 GameObject:
   m_ObjectHideFlags: 0

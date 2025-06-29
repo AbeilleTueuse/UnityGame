@@ -42,69 +42,40 @@ public class InventoryController : BaseMenuController
         _inventoryGrid.Clear();
         _inventoryGrid.style.width = _config.columns * (_config.cellSize + _config.cellMargin * 2);
 
-        for (int row = 0; row < _config.rows; row++)
+        for (int i = 0; i < _config.MaxSlots; i++)
         {
-            for (int column = 0; column < _config.columns; column++)
+            VisualSlot visualSlot = new(_config.cellSize, _config.cellMargin)
             {
-                Button inventoryCell = CreateInventoryCell(row, column);
-                _inventoryGrid.Add(inventoryCell);
-            }
+                name = $"{UIElementNames.InventorySlot}_{i}",
+            };
+
+            _inventoryGrid.Add(visualSlot);
         }
-    }
-
-    private Button CreateInventoryCell(int row, int column)
-    {
-        Button inventoryCell = new() { name = $"InventoryCell_{row}_{column}" };
-        inventoryCell.AddToClassList(UIStyleClasses.InventoryCell);
-        inventoryCell.style.width = _config.cellSize;
-        inventoryCell.style.height = _config.cellSize;
-        inventoryCell.style.marginLeft = _config.cellMargin;
-        inventoryCell.style.marginTop = _config.cellMargin;
-        inventoryCell.style.marginRight = _config.cellMargin;
-        inventoryCell.style.marginBottom = _config.cellMargin;
-
-        VisualElement icon = new() { name = "Icon" };
-        icon.AddToClassList(UIStyleClasses.InventoryIcon);
-        inventoryCell.Add(icon);
-
-        Label quantityLabel = new() { name = "Quantity" };
-        quantityLabel.AddToClassList(UIStyleClasses.InventoryQuantity);
-        inventoryCell.Add(quantityLabel);
-
-        return inventoryCell;
     }
 
     private void RefreshUI(InventorySystem inventory)
     {
         var slots = inventory.Slots;
+        int slotCount = Mathf.Min(_config.MaxSlots, slots.Count, _inventoryGrid.childCount);
 
-        for (int i = 0; i < _config.MaxSlots; i++)
+        for (int i = 0; i < slotCount; i++)
         {
-            if (_inventoryGrid[i] is not Button cell)
-                continue;
-
-            VisualElement icon = cell.Q<VisualElement>("Icon");
-            Label quantityLabel = cell.Q<Label>("Quantity");
-
-            if (i < slots.Count && !slots[i].IsEmpty)
+            if (_inventoryGrid[i] is not VisualSlot visualSlot)
             {
-                Item item = slots[i].Item;
+                Debug.LogWarning($"UI Slot {i} is not a VisualSlot.");
+                continue;
+            }
 
-                if (item != null && item.Icon != null)
-                {
-                    icon.style.backgroundImage = new StyleBackground(item.Icon.texture);
-                    icon.style.display = DisplayStyle.Flex;
-                }
+            InventoryItemSlot slot = slots[i];
+            Item item = slot.Item;
 
-                quantityLabel.text = slots[i].Quantity > 1 ? slots[i].Quantity.ToString() : "";
-                quantityLabel.style.display = DisplayStyle.Flex;
+            if (slot.IsEmpty || item == null || item.Icon == null)
+            {
+                visualSlot.ToEmpty();
             }
             else
             {
-                icon.style.backgroundImage = null;
-                icon.style.display = DisplayStyle.None;
-                quantityLabel.text = "";
-                quantityLabel.style.display = DisplayStyle.None;
+                visualSlot.SetItem(item.Icon.texture, slot.Quantity, item.MaxStack);
             }
         }
     }
