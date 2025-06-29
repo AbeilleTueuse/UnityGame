@@ -5,6 +5,7 @@ public class PlayerSaveManager : MonoBehaviour
 {
     private MainMenuController _ui;
     private PlayerSaveData _currentSave;
+    private PlayerSaveSystem _playerSaveSystem;
 
     private void Start()
     {
@@ -16,13 +17,15 @@ public class PlayerSaveManager : MonoBehaviour
             return;
         }
 
+        _playerSaveSystem = new PlayerSaveSystem();
+
         LoadLatestSave();
         UpdateButtons();
     }
 
     public void LoadLatestSave()
     {
-        _currentSave = PlayerSaveSystem.LoadAllOrdered().FirstOrDefault();
+        _currentSave = _playerSaveSystem.LoadAllOrdered().FirstOrDefault();
     }
 
     public void UpdateButtons()
@@ -55,7 +58,7 @@ public class PlayerSaveManager : MonoBehaviour
         _ui.ShowLoadGamePanel();
         _ui.ClearLoadGameContent();
 
-        foreach (PlayerSaveData playerSaveData in PlayerSaveSystem.LoadAllOrdered())
+        foreach (PlayerSaveData playerSaveData in _playerSaveSystem.LoadAllOrdered())
         {
             _ui.CreateLoadGameButton(playerSaveData, OnSaveSelected);
         }
@@ -63,7 +66,7 @@ public class PlayerSaveManager : MonoBehaviour
 
     public void StartNewGame()
     {
-        _currentSave = PlayerSaveSystem.CreateNewSave();
+        _currentSave = _playerSaveSystem.CreateNewSave();
         UpdateButtons();
         ContinueGame();
     }

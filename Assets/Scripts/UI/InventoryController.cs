@@ -40,7 +40,9 @@ public class InventoryController : BaseMenuController
         }
 
         _inventoryGrid.Clear();
-        _inventoryGrid.style.width = _config.columns * (_config.cellSize + _config.cellMargin * 2);
+        _inventoryGrid.style.width = (int)(
+            (_config.columns + 0.1) * (_config.cellSize + _config.cellMargin * 2)
+        );
 
         for (int i = 0; i < _config.MaxSlots; i++)
         {
@@ -75,7 +77,7 @@ public class InventoryController : BaseMenuController
             }
             else
             {
-                visualSlot.SetItem(item.Icon.texture, slot.Quantity, item.MaxStack);
+                visualSlot.SetItem(item, slot.Quantity);
             }
         }
     }

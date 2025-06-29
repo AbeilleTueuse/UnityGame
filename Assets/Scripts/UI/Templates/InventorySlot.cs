@@ -5,7 +5,7 @@ public class VisualSlot : VisualElement
 {
     public Image Icon;
     public Label Quantity;
-    public string ItemGuid = "";
+    public Item Item;
 
     public VisualSlot(int size, int margin)
     {
@@ -21,6 +21,12 @@ public class VisualSlot : VisualElement
 
         AddToClassList(UIStyleClasses.InventorySlot);
         AddInlineStyle(size, margin);
+
+        RegisterCallback<PointerDownEvent>(OnPointerDown);
+        RegisterCallback<PointerUpEvent>(OnPointerUp);
+        // RegisterCallback<PointerMoveEvent>(OnPointerMove);
+
+        RegisterCallback<ClickEvent>(OnClick);
     }
 
     private void AddInlineStyle(int size, int margin)
@@ -35,17 +41,17 @@ public class VisualSlot : VisualElement
 
     public void ToEmpty()
     {
-        ItemGuid = "";
+        Item = null;
         Icon.image = null;
         Quantity.text = "";
         Quantity.style.display = DisplayStyle.None;
     }
 
-    public void SetItem(Texture2D icon, int quantity, int itemMaxStack)
+    public void SetItem(Item item, int quantity)
     {
-        Icon.image = icon;
+        Icon.image = item.Icon.texture;
 
-        if (itemMaxStack >= 2)
+        if (item.MaxStack >= 2)
         {
             Quantity.text = quantity.ToString();
             Quantity.style.display = DisplayStyle.Flex;
@@ -54,6 +60,38 @@ public class VisualSlot : VisualElement
         {
             Quantity.text = "";
             Quantity.style.display = DisplayStyle.None;
+        }
+
+        Item = item;
+    }
+
+    private bool IsEmpty()
+    {
+        return Item == null;
+    }
+
+    private void OnPointerDown(PointerDownEvent evt)
+    {
+        if (evt.button != 0 || IsEmpty())
+            return;
+    }
+
+    private void OnPointerUp(PointerUpEvent evt)
+    {
+        // Debug.Log($"Pointer up on slot with ItemId: {Item.Id}");
+    }
+
+    private void OnClick(ClickEvent evt)
+    {
+        if (IsEmpty())
+            return;
+
+        if (evt.clickCount == 2)
+        {
+            if (Item.Category == ItemCategory.Equipment)
+            {
+                ItemEvents.RaiseItemEquipped(Item);
+            }
         }
     }
 }

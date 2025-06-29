@@ -27,7 +27,7 @@ public class GameSceneSpawner : NetworkBehaviour
 
         Vector3 spawnPos = GetSpawnPosition();
         GameObject character = Instantiate(characterPrefab, spawnPos, Quaternion.identity);
-        NetworkManager.ServerManager.Spawn(character, args.Connection);
+        Spawn(character, args.Connection);
     }
 
     private Vector3 GetSpawnPosition()

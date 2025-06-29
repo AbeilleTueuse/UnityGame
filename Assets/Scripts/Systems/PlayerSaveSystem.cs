@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-public static class PlayerSaveSystem
+public class PlayerSaveSystem
 {
-    private static string SaveFolder => Application.persistentDataPath;
+    private string SaveFolder => Application.persistentDataPath;
 
-    public static void Save(PlayerSaveData data)
+    public void Save(PlayerSaveData data)
     {
         if (string.IsNullOrEmpty(data.saveId))
             data.saveId = Guid.NewGuid().ToString();
@@ -18,14 +18,14 @@ public static class PlayerSaveSystem
         File.WriteAllText(GetFilePath(data.saveId), json);
     }
 
-    public static PlayerSaveData CreateNewSave()
+    public PlayerSaveData CreateNewSave()
     {
         PlayerSaveData newSave = PlayerSaveData.CreateDefault();
         Save(newSave);
         return newSave;
     }
 
-    public static IEnumerable<PlayerSaveData> LoadAll()
+    public IEnumerable<PlayerSaveData> LoadAll()
     {
         if (!Directory.Exists(SaveFolder))
             Directory.CreateDirectory(SaveFolder);
@@ -37,8 +37,8 @@ public static class PlayerSaveSystem
         }
     }
 
-    public static IEnumerable<PlayerSaveData> LoadAllOrdered() =>
+    public IEnumerable<PlayerSaveData> LoadAllOrdered() =>
         LoadAll().OrderByDescending(s => s.timestampLastLoad);
 
-    private static string GetFilePath(string saveId) => Path.Combine(SaveFolder, $"{saveId}.json");
+    private string GetFilePath(string saveId) => Path.Combine(SaveFolder, $"{saveId}.json");
 }

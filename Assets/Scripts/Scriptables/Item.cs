@@ -1,19 +1,25 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Item", order = 1)]
+[CreateAssetMenu(fileName = "New Item", menuName = "Item")]
 public class Item : ScriptableObject
 {
     [Header("Identification")]
     public int Id;
+
+    [Header("UI")]
+    public Sprite Icon;
     public string DisplayName;
 
     [TextArea]
     public string Description;
 
-    [Header("UI")]
-    public Sprite Icon;
-
     [Header("Gameplay")]
-    public ItemType ItemType;
+    public ItemCategory Category;
+    public ItemSubCategory SubCategory;
+
+    [Min(1)]
     public int MaxStack = 1;
+
+    [Header("World Representation")]
+    public GameObject WorldModelPrefab;
 }
